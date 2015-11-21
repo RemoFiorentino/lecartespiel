@@ -1,0 +1,30 @@
+Arte;Cual es la obra inconclusa de Antoni Gaudi?_a)La mona lisa_b)La sagrada familia_c)El arco del triunfo_d)Girasoles;b
+Arte;Cual es el autor de El enigma sin fin?_a)Salvador Dali_b)Leonardo Davinci_c)Rango_d)Miguel Angel;a
+Arte;Quien pinto "el grito"?_a)Pablo Picaso_b)Edvard Munch_c)Leonardo Davinci_d)M.C.Escher;b
+Arte;En que ciudad espanhola esta el museo Picasso?_a)Sevilla_b)Castilla_c)Madrid_d)Barcelona;d
+Arte;A que pais pertenece el arte namban?_a)China_b)Japon_c)Tailandia_d)Corea;b
+Deporte;Que otro Deporte jugo Michael Jordan?_a)Futbol_b)Tenis_c)Baseball_d)Cadabi o Cricket;c
+Deporte;Cuantos numeros tiene la ruleta?_a)5_b)22_c)45_d)37;d
+Deporte;De que color es la bola no 8?_a)Negra_b)Verde_c)Azul_d)Amarillo;a
+Deporte;En que ciudad juega el equipo del Arsenal?_a)Wimbledon_b)Londres_c)Manchester_d)Wales;b
+Deporte;Cuantos anillos tiene Shaquille O'Neal?_a)2_b)1_c)4_d)3;c
+Historia;Como paso a llamarse el Imperio Austriaco tras la revolucion de 1848?_a)Sacro imperio_b)Republica de Austria_c)Imperio austrohungaro_d)Imperio otomano;c
+Historia;Como se llamo la alianza entre Alemania, Italia y Japón en la II Guerra Mundial?_a)Triple eje_b)Potencias del eje_c)Triple alianza_d)Triple entente;b
+Historia;Con que solian envenenar los antiguos romanos?_a)Cicuta_b)Morfina_c)Cianuro_d)Pesticida;a
+Historia;En que anho se produce la matanza de San Valenten en Chicago?_a)1933_b)1930_c)1927_d)1929;d
+Historia;En que viaje Colon encontro a los mayas?_a)Primero_b)Cuarto_c)Tercero_d)Segundo;b
+Ciencia;Cual es la derivada de 16?_a)16_b)2_c)4_d)0;d
+Ciencia;Cual es el astro mas cercano a la Tierra?_a)Marte_b)Luna_c)Apolo_d)Jupiter;b
+Ciencia;Cual es la integral de 2?_a)2x+c_b)2x_c)0_d)4;a
+Ciencia;4 x 7 en base 9?_a)27_b)30_c)31_d)28;c
+Ciencia;Cual de estos astros brilla mas en el cielo nocturno?_a)Saturno_b)Marte_c)Jupiter_d)neptuno;c
+Gastronomia;Primer productor mundial de vino?_a)Italia_b)Francia_c)España_d)Rusia;a
+Gastronomia;Como se conoce a la comida rapida?_a)Comida chatarra_b)Fast food_c)Comida basura_d)Comida instantanea;b
+Gastronomia;Si pido un Big Mac estoy en?_a)MC Donalds_b)Burger King_c)Wendys_d)Taco bell;a
+Gastronomia;De donde es originario el queso brie?_a)Rusia_b)China_c)Francia_d)India;c
+Gastronomia;Plato tipico navidenho venezolano?_a)Harina_b)Almendra_c)Hayaca_d)Carne;c
+Informatica;Que es el DivX?_a)Codigo de video_b)Codigo de audio_c)Codigo de sistema_d)Codigo de reet solomon;a
+Informatica;Que es un "bug"?_a)Vacio_b)Error de programacion_c)Espacio de memoria_d)Archivo;b
+Informatica;Que tipo de software es Avast!?_a)Animacion_b)Compilacion_c)Dibujo_d)Anti virus;d
+Informatica;Quien es Tux?_a)Linux_b)Windows_c)Apple_d)Samsung;a
+Informatica;Como se conoce a los algoritmos que dividen el problema principal en subproblemas?_a)Recursivos_b)Iterativos_c)Subrutinas_d)Estructuras;c
