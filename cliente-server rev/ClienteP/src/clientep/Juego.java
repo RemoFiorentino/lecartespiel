@@ -59,7 +59,7 @@ public class Juego extends javax.swing.JFrame implements Runnable  {
                 ans3.setIcon(card);
                 break;
             case 4:
-                ans4.setIcon(card);
+                ans1.setIcon(card);
                 break;            
         }
 
