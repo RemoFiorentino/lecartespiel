@@ -17,20 +17,15 @@ import javax.swing.JTextArea;
  */
 public class Conexion extends Thread{
     Socket s;
+    String id;
     DataInputStream entrada;
     DataOutputStream salida;
-    JTextArea jta;
-    JTextArea Pregunta;
-    JTextArea punt;
     String nombre;
     JButton jbt;
     String Answer;
 
     public Conexion(String ip, int puerto, String nombre) throws IOException{//, JTextArea jta, JTextArea pregunta, JTextArea punt, JButton jbt) throws IOException{
-        this.jta = jta;
-        this.punt=punt;
         this.jbt=jbt;
-        //this.Pregunta=pregunta;
         this.nombre = nombre;
         this.s = new Socket(ip, puerto);
         salida = new DataOutputStream(s.getOutputStream());
@@ -47,6 +42,9 @@ public class Conexion extends Thread{
                 String[] sp = mensaje.split("-");
                 String path;
                 switch(sp[0]){
+                    case "ID":
+                        this.id = sp[1];
+                        break;
                     case "Pregunta:":
                         path = sp[1];
                         ImageIcon card = new ImageIcon(getClass().getClassLoader().getResource(path));
@@ -56,10 +54,15 @@ public class Conexion extends Thread{
                     case "Cartas:":
                         path = sp[1];
                         card = new ImageIcon(getClass().getClassLoader().getResource(path));
-                        clientep.Juego.setCard(1+cont%4,card);
+                        clientep.Juego.setCard(cont%5,card);
+                        cont++;
+                        break;
+                    case"Turno:":
+                        //JUDGE logic
                         break;
                     default:
-                        
+                        //append to chat
+                        System.out.println(mensaje);
                         break;
                 }
                 /*if(sp[0].equals("Puntaje:")){
@@ -96,9 +99,12 @@ public class Conexion extends Thread{
     }
     
     public void mostrarMensaje(final String mensaje){
-        jta.append(mensaje);
+        //jta.append(mensaje);
     }
-    
+    public void selectCard(int card){
+        enviarMensaje("pick-"+card+"-"+id);
+        System.out.println("Card "+card+" selected");
+    }
     public void enviarMensaje(String mensaje){
          try{
              salida.writeUTF(mensaje);
