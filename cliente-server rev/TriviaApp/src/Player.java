@@ -53,7 +53,7 @@ public class Player extends Thread {
                     break;
                     case "pick":
                         // hacer la fila y aplicar semaforo para blockear la carta
-                        System.out.println("player"+func[2]+" picked card "+func[1]);
+                        System.out.println(playernom+" picked card "+func[1]);
                     break;
                     case "g":
                         enviarTodos("ganador:-"+func[1],true);

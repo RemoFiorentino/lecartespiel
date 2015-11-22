@@ -22,6 +22,7 @@ public class Juego extends javax.swing.JFrame implements Runnable  {
      * Creates new form Juego
      */
     Conexion c;
+    boolean cardlock=false;
     public int time = 30;
     public int resp;
     ArrayList<String> lista = new ArrayList();
@@ -304,34 +305,54 @@ public class Juego extends javax.swing.JFrame implements Runnable  {
 
     private void ans1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ans1MouseClicked
         // TODO add your handling code here:
-        c.selectCard(1);
-        ans4.setEnabled(false);
-        ans2.setEnabled(false);
-        ans3.setEnabled(false);
+        if(!cardlock){
+            cardlock=true;
+            c.selectCard(1);
+            //hacer despues de confimacion del servidor
+                ans4.setEnabled(false);
+                ans2.setEnabled(false);
+                ans3.setEnabled(false);
+            //
+        }
     }//GEN-LAST:event_ans1MouseClicked
 
     private void ans2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ans2MouseClicked
         // TODO add your handling code here:
-        c.selectCard(2);
-        ans1.setEnabled(false);
-        ans4.setEnabled(false);
-        ans3.setEnabled(false);
+        if(!cardlock){
+            cardlock=true;
+            c.selectCard(2);
+            //hacer despues de confimacion del servidor
+                ans1.setEnabled(false);
+                ans4.setEnabled(false);
+                ans3.setEnabled(false);
+            //
+        }
     }//GEN-LAST:event_ans2MouseClicked
 
     private void ans3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ans3MouseClicked
         // TODO add your handling code here:
-        c.selectCard(3);
-        ans1.setEnabled(false);
-        ans2.setEnabled(false);
-        ans4.setEnabled(false);
+        if(!cardlock){
+            cardlock=true;
+            c.selectCard(3);
+            //hacer despues de confimacion del servidor
+                ans1.setEnabled(false);
+                ans2.setEnabled(false);
+                ans4.setEnabled(false);
+            //
+        }
     }//GEN-LAST:event_ans3MouseClicked
 
     private void ans4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ans4MouseClicked
         // TODO add your handling code here:
-        c.selectCard(4);
-        ans1.setEnabled(false);
-        ans2.setEnabled(false);
-        ans3.setEnabled(false);
+        if(!cardlock){
+            cardlock=true;
+            c.selectCard(4);
+            //hacer despues de confimacion del servidor
+                ans1.setEnabled(false);
+                ans2.setEnabled(false);
+                ans3.setEnabled(false);
+            //
+        }
     }//GEN-LAST:event_ans4MouseClicked
 
     /**
