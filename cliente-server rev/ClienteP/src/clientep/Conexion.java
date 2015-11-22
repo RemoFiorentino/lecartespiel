@@ -9,8 +9,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JTextArea;
 /**
  *
  * @author remojosefiorentinocasadiego
@@ -21,11 +19,9 @@ public class Conexion extends Thread{
     DataInputStream entrada;
     DataOutputStream salida;
     String nombre;
-    JButton jbt;
     String Answer;
 
-    public Conexion(String ip, int puerto, String nombre) throws IOException{//, JTextArea jta, JTextArea pregunta, JTextArea punt, JButton jbt) throws IOException{
-        this.jbt=jbt;
+    public Conexion(String ip, int puerto, String nombre) throws IOException{
         this.nombre = nombre;
         this.s = new Socket(ip, puerto);
         salida = new DataOutputStream(s.getOutputStream());
@@ -57,8 +53,17 @@ public class Conexion extends Thread{
                         clientep.Juego.setCard(cont%5,card);
                         cont++;
                         break;
-                    case"Turno:":
+                    case "Turno:":
                         //JUDGE logic
+                        break;
+                    case "Taken:":
+                        if(sp[1].equals(id)){
+                            clientep.Juego.cardLock(sp[2]);
+                            System.out.println("card "+sp[2]+" taken");
+                        }else{
+                            clientep.Juego.taken(sp[2]);
+                            System.out.println("card "+sp[2]+" already taken");
+                        } 
                         break;
                     default:
                         //append to chat
@@ -95,11 +100,11 @@ public class Conexion extends Thread{
     }
     
     public void finJuego(){
-        jbt.setEnabled(false);
+        //jbt.setEnabled(false);
     }
     
     public void mostrarMensaje(final String mensaje){
-        //jta.append(mensaje);
+        clientep.Juego.jTextArea1.append(mensaje);
     }
     public void selectCard(int card){
         enviarMensaje("pick-"+card+"-"+id);

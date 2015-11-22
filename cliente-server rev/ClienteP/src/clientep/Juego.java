@@ -7,7 +7,6 @@ package clientep;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Random;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
@@ -69,9 +68,9 @@ public class Juego extends javax.swing.JFrame implements Runnable  {
                 break;            
         }
     }
-    void requestQ(){
+    void requestQ(){  //con esto haremos el timeout de escojer las cartas supongo
         time=30;
-        int j = lista.size();
+        /*int j = lista.size();
         Object[] list = new Object[j];
         for(int i = 0;i<j;i++){
             list[i] = lista.get(i);
@@ -88,19 +87,13 @@ public class Juego extends javax.swing.JFrame implements Runnable  {
             if(selec.compareToIgnoreCase(lista.get(k))==0){
                 resp = k; 
             } 
-        }
-        timer.restart();
+        }*/
+        timer.restart(); 
     }
     
-    void updatepuntaje(){
-        String p  = "";
-        int cont = 0;
-        p="el puntaje actual del jugador es "+cont;
-        /*if (jComboBox1.getSelectedItem().toString().compareToIgnoreCase(c.Answer)==0){
-            cont=cont+1;
-            p="el puntaje actual del jugador es "+cont;
-            jTextArea2.setText(p);       
-        }*/
+    void updatepuntaje(int puntos){
+        String p="el puntaje actual del jugador es "+puntos;
+        jTextArea1.setText(p);   
     }
         
     
@@ -114,7 +107,47 @@ public class Juego extends javax.swing.JFrame implements Runnable  {
         jButton3.setEnabled(false);
         */
     }
-
+    static void taken(String c){
+        switch(c){
+            case "1":
+                ans1.setEnabled(false);
+                break;
+            case "2":
+                ans2.setEnabled(false);
+                break;
+            case "3":
+                ans3.setEnabled(false);
+                break;
+            case "4":
+                ans4.setEnabled(false);
+                break;
+        }
+    }
+    
+    static void cardLock(String c){
+        switch(c){
+            case "1":
+                ans2.setEnabled(false);
+                ans3.setEnabled(false);
+                ans4.setEnabled(false);
+                break;
+            case "2":
+                ans1.setEnabled(false);
+                ans3.setEnabled(false);
+                ans4.setEnabled(false);
+                break;
+            case "3":
+                ans1.setEnabled(false);
+                ans2.setEnabled(false);
+                ans4.setEnabled(false);
+                break;
+            case "4":
+                ans1.setEnabled(false);
+                ans2.setEnabled(false);
+                ans3.setEnabled(false);
+                break;
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -308,11 +341,6 @@ public class Juego extends javax.swing.JFrame implements Runnable  {
         if(!cardlock){
             cardlock=true;
             c.selectCard(1);
-            //hacer despues de confimacion del servidor
-                ans4.setEnabled(false);
-                ans2.setEnabled(false);
-                ans3.setEnabled(false);
-            //
         }
     }//GEN-LAST:event_ans1MouseClicked
 
@@ -321,11 +349,6 @@ public class Juego extends javax.swing.JFrame implements Runnable  {
         if(!cardlock){
             cardlock=true;
             c.selectCard(2);
-            //hacer despues de confimacion del servidor
-                ans1.setEnabled(false);
-                ans4.setEnabled(false);
-                ans3.setEnabled(false);
-            //
         }
     }//GEN-LAST:event_ans2MouseClicked
 
@@ -334,11 +357,6 @@ public class Juego extends javax.swing.JFrame implements Runnable  {
         if(!cardlock){
             cardlock=true;
             c.selectCard(3);
-            //hacer despues de confimacion del servidor
-                ans1.setEnabled(false);
-                ans2.setEnabled(false);
-                ans4.setEnabled(false);
-            //
         }
     }//GEN-LAST:event_ans3MouseClicked
 
@@ -347,11 +365,6 @@ public class Juego extends javax.swing.JFrame implements Runnable  {
         if(!cardlock){
             cardlock=true;
             c.selectCard(4);
-            //hacer despues de confimacion del servidor
-                ans1.setEnabled(false);
-                ans2.setEnabled(false);
-                ans3.setEnabled(false);
-            //
         }
     }//GEN-LAST:event_ans4MouseClicked
 
@@ -400,7 +413,7 @@ public class Juego extends javax.swing.JFrame implements Runnable  {
     private javax.swing.JLabel jLabel5;
     private static javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
+    public static javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private static javax.swing.JLabel preg;
