@@ -10,6 +10,7 @@
  */
 public class Carta {
     int id;
+    int owner;
     String path;
     boolean show;
     
@@ -17,5 +18,6 @@ public class Carta {
         this.id = ID;
         this.path = PATH;
         this.show = false;
+        this.owner = 0;
     }
 }

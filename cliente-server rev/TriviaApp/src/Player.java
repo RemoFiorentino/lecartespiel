@@ -46,52 +46,52 @@ public class Player extends Thread {
         while(true){
             try{
                 String mensaje = (String) entrada.readUTF();
-                if(!mensaje.startsWith("-", 1)){
-                    enviarTodos(mensaje,false);
-                }else{
-                    String[] func = mensaje.split("-");
-                    switch(func[0]){
-                        case "g":
-                            enviarTodos("ganador:-"+func[1],true);
-                        break; 
-                        case "n":
-                            playernom=func[1];
-                        break;
-                        case "p":
-                            if(func[1].equals("true")){
-                                puntaje++;
-                                actualizarP();
-                                enviarTodos(playernom+" contesto correctamente", false);
-                            }else{
-                                siguiente();
-                            }
-                        break;
-                        case "q":
-                            Random rnd = new Random();
-                            int i;
-                            Pregunta p;
+                String[] func = mensaje.split("-");
+                switch(func[0]){
+                    case "nom":
+                        playernom=func[1];
+                    break;
+                    case "pick":
+                        // hacer la fila y aplicar semaforo para blockear la carta
+                        System.out.println(playernom+" picked card "+func[1]);
+                    break;
+                    case "g":
+                        enviarTodos("ganador:-"+func[1],true);
+                    break; 
+                    case "p":
+                        if(func[1].equals("true")){
+                            puntaje++;
+                            actualizarP();
+                            enviarTodos(playernom+" contesto correctamente", false);
+                        }else{
+                            siguiente();
+                        }
+                    break;
+                    //case q: no es llamado    
+                    case "q":
+                        Random rnd = new Random();
+                        int i;
+                        Pregunta p;
+                        do{
+                            i = (int) (rnd.nextDouble() * 1 + 0);
+                            p = preguntas.get(i);
+                        }while(p.show);
+                        for(int k=0;k<players.size();k++){
+                           players.get(k).enviarMensaje("Pregunta:-"+p.path);
+                        }
+                        Carta c;
+                        for(int j=0;j<5;j++){
                             do{
                                 i = (int) (rnd.nextDouble() * 1 + 0);
-                                p = preguntas.get(i);
-                            }while(p.show);
+                                c = cartas.get(i);
+                            }while(c.show);
                             for(int k=0;k<players.size();k++){
-                               players.get(k).enviarMensaje("Pregunta:-"+p.path);
+                                players.get(k).enviarMensaje("Carta:-"+c.path);
                             }
-                            Carta c;
-                            for(int j=0;j<5;j++){
-                                do{
-                                    i = (int) (rnd.nextDouble() * 1 + 0);
-                                    c = cartas.get(i);
-                                }while(c.show);
-                                for(int k=0;k<players.size();k++){
-                                    players.get(k).enviarMensaje("Carta:-"+c.path);
-                                }
-                            }
-                        break;
-                        case "s":
-                            
-                        break; 
-                    }
+                        }
+                    break;
+                    //default:
+                    //break; 
                 }
             }
             catch(IOException ioex){

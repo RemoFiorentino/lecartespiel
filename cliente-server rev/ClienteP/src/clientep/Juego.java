@@ -1,4 +1,4 @@
-/*
+ /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
@@ -8,9 +8,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Random;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
-
+  
 /**
  *
  * @author remojosefiorentinocasadiego
@@ -21,6 +22,7 @@ public class Juego extends javax.swing.JFrame implements Runnable  {
      * Creates new form Juego
      */
     Conexion c;
+    boolean cardlock=false;
     public int time = 30;
     public int resp;
     ArrayList<String> lista = new ArrayList();
@@ -30,7 +32,7 @@ public class Juego extends javax.swing.JFrame implements Runnable  {
             public void actionPerformed(ActionEvent e) {
                 if(time>0){
                     time=time - 1;
-                    jLabel5.setText("Timer: "+time);
+                    //jLabel5.setText("Timer: "+time);
                 }else{
                     JOptionPane.showMessageDialog(null, "Se acabo el tiempo", "Error", JOptionPane.ERROR_MESSAGE);
                     timer.stop();
@@ -41,18 +43,32 @@ public class Juego extends javax.swing.JFrame implements Runnable  {
         });
     public Juego() {
         initComponents();
-        lista.add("Arte");
-        lista.add("Deporte");
-        lista.add("Historia");
-        lista.add("Informatica");
-        lista.add("Ciencia");
-        lista.add("Gastronomia");       
-        jTextArea3.setEditable(false);
-        jTextArea2.setEditable(false);
-        jTextArea1.setEditable(false);
-        jButton1.setEnabled(false);
+        this.setTitle("Le Carte Spiel");
     }
-    
+    public static void setCard(int label, ImageIcon card){
+        switch(label){
+            case 0: 
+                preg.setIcon(card);
+                System.out.println("loaded question ");
+                break;
+            case 1:
+                ans1.setIcon(card);
+                System.out.println("loaded card 1");
+                break;
+            case 2:
+                ans2.setIcon(card);
+                System.out.println("loaded card 2");
+                break;
+            case 3:
+                ans3.setIcon(card);
+                System.out.println("loaded card 3");
+                break;
+            case 4:
+                ans4.setIcon(card);
+                System.out.println("loaded card 4");
+                break;            
+        }
+    }
     void requestQ(){
         time=30;
         int j = lista.size();
@@ -78,22 +94,25 @@ public class Juego extends javax.swing.JFrame implements Runnable  {
     
     void updatepuntaje(){
         String p  = "";
-        int cont=0;
-        if (jComboBox1.getSelectedItem().toString().compareToIgnoreCase(c.Answer)==0){
+        int cont = 0;
+        p="el puntaje actual del jugador es "+cont;
+        /*if (jComboBox1.getSelectedItem().toString().compareToIgnoreCase(c.Answer)==0){
             cont=cont+1;
-            p="el puntaje actual del jugador es"+cont;
+            p="el puntaje actual del jugador es "+cont;
             jTextArea2.setText(p);       
-        }
+        }*/
     }
         
     
     
     void finturno(){
+        /*
         jTabbedPane1.setSelectedIndex(0);
         jComboBox1.setEnabled(false);
         jTextArea3.setText("");
         jLabel5.setEnabled(false);
         jButton3.setEnabled(false);
+        */
     }
 
     /**
@@ -105,51 +124,91 @@ public class Juego extends javax.swing.JFrame implements Runnable  {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jTabbedPane1 = new javax.swing.JTabbedPane();
-        jPanel3 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        ans1 = new javax.swing.JLabel();
+        ans2 = new javax.swing.JLabel();
+        ans3 = new javax.swing.JLabel();
+        ans4 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
         jTextField2 = new javax.swing.JTextField();
+        jButton2 = new javax.swing.JButton();
+        preg = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
-        jButton2 = new javax.swing.JButton();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jPanel4 = new javax.swing.JPanel();
-        jButton3 = new javax.swing.JButton();
-        jLabel5 = new javax.swing.JLabel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jTextArea3 = new javax.swing.JTextArea();
-        jComboBox1 = new javax.swing.JComboBox();
-        jPanel5 = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel1.setText("Esperando jugadores ");
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jButton1.setText("Link start!");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+        ans1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                ans1MouseClicked(evt);
             }
         });
 
-        jLabel2.setText("Presione start, cuando este listo.");
+        ans2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                ans2MouseClicked(evt);
+            }
+        });
+
+        ans3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                ans3MouseClicked(evt);
+            }
+        });
+
+        ans4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                ans4MouseClicked(evt);
+            }
+        });
+
+        org.jdesktop.layout.GroupLayout jPanel1Layout = new org.jdesktop.layout.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(jPanel1Layout.createSequentialGroup()
+                .add(20, 20, 20)
+                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(jPanel1Layout.createSequentialGroup()
+                        .add(ans1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 115, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .add(ans2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 115, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(16, 16, 16))
+                    .add(jPanel1Layout.createSequentialGroup()
+                        .add(ans3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 115, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 225, Short.MAX_VALUE)
+                        .add(ans4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 115, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(18, 18, 18)))
+                .add(1, 1, 1))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(jPanel1Layout.createSequentialGroup()
+                .add(24, 24, 24)
+                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(ans1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 160, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(ans2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 160, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(101, 101, 101)
+                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                    .add(ans3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 160, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(ans4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 160, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jLabel3.setText("Nombre");
+
+        jLabel5.setText("Timer: 30");
+        jLabel5.setEnabled(false);
+
+        jLabel4.setText("IP:");
 
         jTextField2.setText("localhost");
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
-            }
-        });
-
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
 
         jButton2.setText("Ingresar");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -158,142 +217,9 @@ public class Juego extends javax.swing.JFrame implements Runnable  {
             }
         });
 
-        jLabel3.setText("Nombre");
-
-        jLabel4.setText("IP");
-
-        org.jdesktop.layout.GroupLayout jPanel3Layout = new org.jdesktop.layout.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-            .add(jPanel3Layout.createSequentialGroup()
-                .add(jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                    .add(jPanel3Layout.createSequentialGroup()
-                        .add(19, 19, 19)
-                        .add(jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(jLabel1)
-                            .add(jLabel2))
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .add(jButton1))
-                    .add(jPanel3Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .add(jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(jTextField1)
-                            .add(jLabel3)
-                            .add(jLabel4)
-                            .add(jTextField2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 89, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                            .add(jButton2))
-                        .add(18, 18, 18)
-                        .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 239, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-
-        jPanel3Layout.linkSize(new java.awt.Component[] {jTextField1, jTextField2}, org.jdesktop.layout.GroupLayout.HORIZONTAL);
-
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jPanel3Layout.createSequentialGroup()
-                .add(22, 22, 22)
-                .add(jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                    .add(jPanel3Layout.createSequentialGroup()
-                        .add(jLabel1)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(jLabel2))
-                    .add(jButton1))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 11, Short.MAX_VALUE)
-                .add(jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .add(jLabel3)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                        .add(jTextField1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(18, 18, 18)
-                        .add(jLabel4)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                        .add(jTextField2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(18, 18, 18)
-                        .add(jButton2)
-                        .add(28, 28, 28))
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 202, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
-        );
-
-        jTabbedPane1.addTab("Inicio", jPanel3);
-
-        jButton3.setText("Ingresar respuesta");
-        jButton3.setEnabled(false);
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-
-        jLabel5.setText("Timer: 30");
-        jLabel5.setEnabled(false);
-
-        jTextArea3.setEditable(false);
-        jTextArea3.setColumns(20);
-        jTextArea3.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jTextArea3.setRows(5);
-        jScrollPane3.setViewportView(jTextArea3);
-
-        jComboBox1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "a", "b", "c", "d" }));
-
-        org.jdesktop.layout.GroupLayout jPanel4Layout = new org.jdesktop.layout.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jPanel4Layout.createSequentialGroup()
-                .add(jPanel4Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(jPanel4Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .add(jScrollPane3))
-                    .add(jPanel4Layout.createSequentialGroup()
-                        .add(21, 21, 21)
-                        .add(jComboBox1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 53, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 28, Short.MAX_VALUE)
-                        .add(jButton3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 133, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(39, 39, 39)
-                        .add(jLabel5, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 69, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(13, 13, 13)))
-                .addContainerGap())
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .add(jScrollPane3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 225, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jPanel4Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(jButton3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 27, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(jLabel5, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 22, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(jComboBox1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        jTabbedPane1.addTab("Pregunta", jPanel4);
-
-        jTextArea2.setColumns(20);
-        jTextArea2.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jTextArea2.setRows(5);
-        jScrollPane2.setViewportView(jTextArea2);
-
-        org.jdesktop.layout.GroupLayout jPanel5Layout = new org.jdesktop.layout.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 346, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
-        );
-
-        jTabbedPane1.addTab("Puntaje", jPanel5);
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane1.setViewportView(jTextArea1);
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -301,52 +227,52 @@ public class Juego extends javax.swing.JFrame implements Runnable  {
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
                 .addContainerGap()
-                .add(jTabbedPane1)
-                .addContainerGap())
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(layout.createSequentialGroup()
+                        .add(jLabel3)
+                        .add(18, 18, 18)
+                        .add(jTextField1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 92, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(219, 219, 219)
+                        .add(jLabel5, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 69, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(134, 134, 134)
+                        .add(jLabel4)
+                        .add(18, 18, 18)
+                        .add(jTextField2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 89, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(18, 18, 18)
+                        .add(jButton2)
+                        .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .add(layout.createSequentialGroup()
+                        .add(preg, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 115, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(jPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 190, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(0, 6, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
-                .addContainerGap()
-                .add(jTabbedPane1)
-                .addContainerGap())
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                        .add(layout.createSequentialGroup()
+                            .addContainerGap()
+                            .add(preg, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 160, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                        .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
+                            .add(6, 6, 6)
+                            .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 450, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                    .add(jPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(jTextField2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(jButton2)
+                    .add(jLabel4)
+                    .add(jLabel5, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 22, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(jTextField1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(jLabel3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 20, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        //pedir pregunta
-        requestQ();  
-        jTabbedPane1.setSelectedIndex(1);
-        jComboBox1.setEnabled(true);
-        jLabel5.setEnabled(true);
-        jButton3.setEnabled(true);
-        jLabel5.setText("Timer: 30");
-        jButton1.setEnabled(false);
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-        timer.stop();
-        if (jComboBox1.getSelectedItem().toString().compareToIgnoreCase(c.Answer)==0){
-            JOptionPane.showMessageDialog(null,"Tu respuesta es correcta!!!","Respuesta", JOptionPane.INFORMATION_MESSAGE);
-            lista.remove(resp);
-            c.enviarMensaje("p-true");
-            if(!lista.isEmpty()){
-                requestQ();
-            }else{
-                jButton3.setEnabled(false);
-                c.enviarMensaje("g-"+c.nombre);
-            }
-        }else{
-            JOptionPane.showMessageDialog(null,"Tu respuesta es incorrecta!!!\n Sigue intentando","Respuesta", JOptionPane.ERROR_MESSAGE);
-            c.enviarMensaje("p-false");
-            finturno();
-        }
-        updatepuntaje();
-    }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
@@ -360,14 +286,16 @@ public class Juego extends javax.swing.JFrame implements Runnable  {
                     }
                 }else{
                     JOptionPane.showMessageDialog(null,"IP vacio debe escribir caracteres validos","Error", JOptionPane.ERROR_MESSAGE);
-                }      
+                }
             }else{
-                c = new Conexion(jTextField2.getText(),12345, jTextField1.getText(),jTextArea1, jTextArea3, jTextArea2,jButton1);
+                c = new Conexion(jTextField2.getText(),12345, jTextField1.getText());//,jTextArea1, jTextArea3, jTextArea2,jButton1);
                 c.start();
-                c.enviarMensaje("n-"+jTextField1.getText());
+                c.enviarMensaje("nom-"+jTextField1.getText());
+                System.out.println("Name sent");
                 jTextField1.setEditable(false);
                 jTextField2.setEditable(false);
-                jButton2.setEnabled(false);
+                //jButton2.setEnabled(false);
+                System.out.println("Connected");
             }
         }catch(Exception ex){
             c = null;
@@ -375,9 +303,57 @@ public class Juego extends javax.swing.JFrame implements Runnable  {
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+    private void ans1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ans1MouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+        if(!cardlock){
+            cardlock=true;
+            c.selectCard(1);
+            //hacer despues de confimacion del servidor
+                ans4.setEnabled(false);
+                ans2.setEnabled(false);
+                ans3.setEnabled(false);
+            //
+        }
+    }//GEN-LAST:event_ans1MouseClicked
+
+    private void ans2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ans2MouseClicked
+        // TODO add your handling code here:
+        if(!cardlock){
+            cardlock=true;
+            c.selectCard(2);
+            //hacer despues de confimacion del servidor
+                ans1.setEnabled(false);
+                ans4.setEnabled(false);
+                ans3.setEnabled(false);
+            //
+        }
+    }//GEN-LAST:event_ans2MouseClicked
+
+    private void ans3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ans3MouseClicked
+        // TODO add your handling code here:
+        if(!cardlock){
+            cardlock=true;
+            c.selectCard(3);
+            //hacer despues de confimacion del servidor
+                ans1.setEnabled(false);
+                ans2.setEnabled(false);
+                ans4.setEnabled(false);
+            //
+        }
+    }//GEN-LAST:event_ans3MouseClicked
+
+    private void ans4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ans4MouseClicked
+        // TODO add your handling code here:
+        if(!cardlock){
+            cardlock=true;
+            c.selectCard(4);
+            //hacer despues de confimacion del servidor
+                ans1.setEnabled(false);
+                ans2.setEnabled(false);
+                ans3.setEnabled(false);
+            //
+        }
+    }//GEN-LAST:event_ans4MouseClicked
 
     /**
      * @param args the command line arguments
@@ -414,27 +390,20 @@ public class Juego extends javax.swing.JFrame implements Runnable  {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private static javax.swing.JLabel ans1;
+    private static javax.swing.JLabel ans2;
+    private static javax.swing.JLabel ans3;
+    private static javax.swing.JLabel ans4;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JComboBox jComboBox1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
+    private static javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextArea jTextArea2;
-    private javax.swing.JTextArea jTextArea3;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
+    private static javax.swing.JLabel preg;
     // End of variables declaration//GEN-END:variables
 
     @Override
