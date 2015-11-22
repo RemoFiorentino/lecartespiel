@@ -33,14 +33,14 @@ public class Server {
         juegoactivo=true;
         try{
             System.out.println("port:12345\nIP: localHost");
-            sv = new ServerSocket(port,4);
+            sv = new ServerSocket(port,5);
         }catch(IOException ioex) {
             ioex.getMessage();
             System.err.println("Could not listen on port: "+port+".");
         }
         players = new HashMap<Integer,Player>();
-        String[] list = new String[8];
-        for(Integer i = 2;i<10;i++){
+        String[] list = new String[5];
+        for(Integer i = 2;i<7;i++){
             list[i-2] = i.toString();
         }
         int selec = Integer.parseInt((String)JOptionPane.showInputDialog(null, "Cuantos jugadores\nvan a jugar", "Jugadores", JOptionPane.INFORMATION_MESSAGE, null, list,list[0]));

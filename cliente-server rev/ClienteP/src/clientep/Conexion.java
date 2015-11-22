@@ -7,7 +7,9 @@ import java.io.*;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JTextArea;
 /**
  *
@@ -24,11 +26,11 @@ public class Conexion extends Thread{
     JButton jbt;
     String Answer;
 
-    public Conexion(String ip, int puerto, String nombre, JTextArea jta, JTextArea pregunta, JTextArea punt, JButton jbt) throws IOException{
+    public Conexion(String ip, int puerto, String nombre) throws IOException{//, JTextArea jta, JTextArea pregunta, JTextArea punt, JButton jbt) throws IOException{
         this.jta = jta;
         this.punt=punt;
         this.jbt=jbt;
-        this.Pregunta=pregunta;
+        //this.Pregunta=pregunta;
         this.nombre = nombre;
         this.s = new Socket(ip, puerto);
         salida = new DataOutputStream(s.getOutputStream());
@@ -42,7 +44,17 @@ public class Conexion extends Thread{
             try{
                 String mensaje = (String) entrada.readUTF();
                 String[] sp = mensaje.split("-");
-                if(sp[0].equals("Puntaje:")){
+                switch(sp[0]){
+                    case "Pregunta:":
+                        String path = sp[1];
+                        ImageIcon card = new ImageIcon(getClass().getClassLoader().getResource(path));
+                        //JLabel jl = new JLabel();
+                        clientep.Juego.setCard(0,card);
+                        break;
+                    default:
+                        break;
+                }
+                /*if(sp[0].equals("Puntaje:")){
                     punt.setText("");
                     for (int i=0;i<sp.length;i++){
                         punt.append(sp[i]+"\n");
@@ -64,8 +76,7 @@ public class Conexion extends Thread{
                     jta.append("El ganador del juego es :"+sp[1]);
                 }else{
                     jta.append(sp[0]+"\n");
-                }
-
+                }*/
             }catch(Exception ex){
                 System.out.println(ex.getMessage());
             }
