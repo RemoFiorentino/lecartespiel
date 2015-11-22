@@ -44,11 +44,23 @@ public class Juego extends javax.swing.JFrame implements Runnable  {
         initComponents();
         this.setTitle("Le Carte Spiel");
     }
-    public void setCard(int label, ImageIcon card){
+    public static void setCard(int label, ImageIcon card){
         switch(label){
             case 0: 
                 preg.setIcon(card);
                 break;
+            case 1:
+                ans1.setIcon(card);
+                break;
+            case 2:
+                ans2.setIcon(card);
+                break;
+            case 3:
+                ans3.setIcon(card);
+                break;
+            case 4:
+                ans4.setIcon(card);
+                break;            
         }
 
         
@@ -335,10 +347,10 @@ public class Juego extends javax.swing.JFrame implements Runnable  {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    public javax.swing.JLabel ans1;
-    private javax.swing.JLabel ans2;
-    private javax.swing.JLabel ans3;
-    private javax.swing.JLabel ans4;
+    private static javax.swing.JLabel ans1;
+    private static javax.swing.JLabel ans2;
+    private static javax.swing.JLabel ans3;
+    private static javax.swing.JLabel ans4;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel3;
@@ -351,7 +363,7 @@ public class Juego extends javax.swing.JFrame implements Runnable  {
     private javax.swing.JTextArea jTextArea2;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
-    public javax.swing.JLabel preg;
+    private static javax.swing.JLabel preg;
     // End of variables declaration//GEN-END:variables
 
     @Override

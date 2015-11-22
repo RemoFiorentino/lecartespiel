@@ -40,18 +40,26 @@ public class Conexion extends Thread{
     
     @Override
     public void run(){
+        int cont = 1;
         while(true){
             try{
                 String mensaje = (String) entrada.readUTF();
                 String[] sp = mensaje.split("-");
+                String path;
                 switch(sp[0]){
                     case "Pregunta:":
-                        String path = sp[1];
+                        path = sp[1];
                         ImageIcon card = new ImageIcon(getClass().getClassLoader().getResource(path));
                         //JLabel jl = new JLabel();
                         clientep.Juego.setCard(0,card);
                         break;
+                    case "Cartas:":
+                        path = sp[1];
+                        card = new ImageIcon(getClass().getClassLoader().getResource(path));
+                        clientep.Juego.setCard(1+cont%4,card);
+                        break;
                     default:
+                        
                         break;
                 }
                 /*if(sp[0].equals("Puntaje:")){
