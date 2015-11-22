@@ -20,7 +20,8 @@ import javax.swing.JOptionPane;
 public class Server {
     
     ServerSocket sv;
-    HashMap<String,ArrayList<Pregunta>> Preguntas;
+    ArrayList<Pregunta> Preguntas;
+    ArrayList<Carta> Cartas;
     HashMap<Integer,Player> players;
     int currentPlayer;
     int slot=1;
@@ -39,15 +40,15 @@ public class Server {
             System.err.println("Could not listen on port: "+port+".");
         }
         players = new HashMap<Integer,Player>();
-        String[] list = new String[8];
-        for(Integer i = 2;i<10;i++){
-            list[i-2] = i.toString();
+        String[] list = new String[5];
+        for(Integer i = 3;i<7;i++){
+            list[i-3] = i.toString();
         }
         int selec = Integer.parseInt((String)JOptionPane.showInputDialog(null, "Cuantos jugadores\nvan a jugar", "Jugadores", JOptionPane.INFORMATION_MESSAGE, null, list,list[0]));
         System.out.println("Esperando jugadores...");
         while(players.size()<selec){
             try{
-                Player px = new Player( sv.accept(), slot , players, Preguntas);
+                Player px = new Player( sv.accept(), slot , players, Preguntas, Cartas);
                 px.start();
                 players.put(slot,px);
                 System.out.println("conectado a: "+px.playernom+px.connection.getInetAddress()+"("+px.playerID+")");
@@ -56,9 +57,8 @@ public class Server {
                 ioex.printStackTrace();
             }
         }
-        
         Player currentpx = players.get(currentPlayer);
-        currentpx.suspended=false;
+        currentpx.judge=false;
         currentpx.enviarTodos("Es el turno de "+currentpx.playernom,false);
         
         currentpx.enviarMensaje("Turno:-"+currentpx.playernom);
@@ -66,35 +66,15 @@ public class Server {
     }
     
     public void load(){
-        Preguntas = new HashMap<String,ArrayList<Pregunta>>();
-        Preguntas.put("Historia",new ArrayList<Pregunta>());
-        Preguntas.put("Arte",new ArrayList<Pregunta>());
-        Preguntas.put("Ciencia",new ArrayList<Pregunta>());
-        Preguntas.put("Deporte",new ArrayList<Pregunta>());
-        Preguntas.put("Gastronomia",new ArrayList<Pregunta>());
-        Preguntas.put("Informatica",new ArrayList<Pregunta>());
-        
-        File aFile=new File("preguntas.txt");
-        String temp="";
-        String key;
-        try{
-            FileReader fin=new FileReader(aFile);
-            BufferedReader myread=new BufferedReader(fin);
-            temp=myread.readLine();
-            
-            while(temp!=null){                             
-                String[] info = temp.split(";");
-                key = info[0];
-                Pregunta p = new Pregunta(info);
-                ArrayList<Pregunta> ap = Preguntas.get(key);
-                ap.add(p);
-                temp = myread.readLine();
-            }
-            myread.close();
-            fin.close();
-        }catch(Exception ex){
-            ex.getMessage();
-            ex.printStackTrace();
+        Preguntas = new ArrayList<Pregunta>();
+        Pregunta p;
+        for(int i=0;i<1;i++){
+            p = new Pregunta(i,"p"+String.format("%02d", i)+".jpg");
+        }
+        Cartas = new ArrayList<Carta>();
+        Carta c;
+        for(int i=0;i<1;i++){
+            c = new Carta(i,"a"+String.format("%02d", i)+".jpg");
         }
     }
     public static void main(String args[]) {
