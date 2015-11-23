@@ -46,13 +46,12 @@ public class Player extends Thread {
             ioex.printStackTrace();
         }
     }
+    /////////////////////////SEMAPHORE LOGIC/////////////////////////////////
     public void takeCard(String pid, String cid){
         Semaphore sph = ServerAPP.Server.sph;
         try{
             sph.acquire();
             //critical section
-            //Carta c = ServerAPP.Server.Cartas.get(cid);
-            //c.owner = pid;
             int[] cartas = ServerAPP.Server.cartasI;
             int id = Integer.parseInt(pid);
             if(cartas[id-1]==0){
@@ -68,7 +67,7 @@ public class Player extends Thread {
             sph.release();
         }
     }
-    
+    //////////////////////////////////////////////////////////////////////////////
     
     @Override
     public void run(){

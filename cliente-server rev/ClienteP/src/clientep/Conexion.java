@@ -8,7 +8,6 @@ import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 /**
  *
  * @author remojosefiorentinocasadiego
@@ -56,15 +55,23 @@ public class Conexion extends Thread{
                     case "Turno:":
                         //JUDGE logic
                         break;
+                ////////////////////////////Pick & lock logic/////////////////////////////        
                     case "Taken:":
                         if(sp[1].equals(id)){
-                            clientep.Juego.cardLock(sp[2]);
+                            //false disables the other cards
+                            clientep.Juego.cardLock(sp[2],false);
                             System.out.println("card "+sp[2]+" taken");
                         }else{
                             clientep.Juego.taken(sp[2]);
-                            System.out.println("card "+sp[2]+" already taken");
+                            System.out.println("player "+sp[1]+" took card "+sp[2]);
                         } 
                         break;
+                    case "Rollback:":
+                        //true enables cards
+                        clientep.Juego.cardLock(sp[2],true);
+                        System.out.println("card "+sp[2]+" already taken");
+                        break;
+                /////////////////////////////////////////////////////////////////////////
                     default:
                         //append to chat
                         System.out.println(mensaje);

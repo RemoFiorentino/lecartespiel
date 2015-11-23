@@ -21,7 +21,7 @@ public class Juego extends javax.swing.JFrame implements Runnable  {
      * Creates new form Juego
      */
     Conexion c;
-    boolean cardlock=false;
+    static boolean cardlock=false;
     public int time = 30;
     public int resp;
     ArrayList<String> lista = new ArrayList();
@@ -107,7 +107,10 @@ public class Juego extends javax.swing.JFrame implements Runnable  {
         jButton3.setEnabled(false);
         */
     }
+    /////////////////////////////////////////////////////////////////
+    
     static void taken(String c){
+        //desactiva la carta que otro escogio
         switch(c){
             case "1":
                 ans1.setEnabled(false);
@@ -124,30 +127,33 @@ public class Juego extends javax.swing.JFrame implements Runnable  {
         }
     }
     
-    static void cardLock(String c){
+    static void cardLock(String c,boolean open){
+        //desactiva o activa las demas cartas
         switch(c){
             case "1":
-                ans2.setEnabled(false);
-                ans3.setEnabled(false);
-                ans4.setEnabled(false);
+                ans2.setEnabled(open);
+                ans3.setEnabled(open);
+                ans4.setEnabled(open);
                 break;
             case "2":
-                ans1.setEnabled(false);
-                ans3.setEnabled(false);
-                ans4.setEnabled(false);
+                ans1.setEnabled(open);
+                ans3.setEnabled(open);
+                ans4.setEnabled(open);
                 break;
             case "3":
-                ans1.setEnabled(false);
-                ans2.setEnabled(false);
-                ans4.setEnabled(false);
+                ans1.setEnabled(open);
+                ans2.setEnabled(open);
+                ans4.setEnabled(open);
                 break;
             case "4":
-                ans1.setEnabled(false);
-                ans2.setEnabled(false);
-                ans3.setEnabled(false);
+                ans1.setEnabled(open);
+                ans2.setEnabled(open);
+                ans3.setEnabled(open);
                 break;
         }
+        cardlock=!open;
     }
+    /////////////////////////////////////////////////////////////////////
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -327,7 +333,7 @@ public class Juego extends javax.swing.JFrame implements Runnable  {
                 System.out.println("Name sent");
                 jTextField1.setEditable(false);
                 jTextField2.setEditable(false);
-                //jButton2.setEnabled(false);
+                jButton2.setEnabled(false);
                 System.out.println("Connected");
             }
         }catch(Exception ex){
@@ -338,7 +344,7 @@ public class Juego extends javax.swing.JFrame implements Runnable  {
 
     private void ans1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ans1MouseClicked
         // TODO add your handling code here:
-        if(!cardlock){
+        if(ans1.isEnabled()==true && !cardlock==true){
             cardlock=true;
             c.selectCard(1);
         }
@@ -346,7 +352,7 @@ public class Juego extends javax.swing.JFrame implements Runnable  {
 
     private void ans2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ans2MouseClicked
         // TODO add your handling code here:
-        if(!cardlock){
+        if(ans2.isEnabled()==true && !cardlock==true){
             cardlock=true;
             c.selectCard(2);
         }
@@ -354,7 +360,7 @@ public class Juego extends javax.swing.JFrame implements Runnable  {
 
     private void ans3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ans3MouseClicked
         // TODO add your handling code here:
-        if(!cardlock){
+        if(ans3.isEnabled()==true && !cardlock==true){
             cardlock=true;
             c.selectCard(3);
         }
@@ -362,7 +368,7 @@ public class Juego extends javax.swing.JFrame implements Runnable  {
 
     private void ans4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ans4MouseClicked
         // TODO add your handling code here:
-        if(!cardlock){
+        if(ans4.isEnabled()==true && !cardlock==true){
             cardlock=true;
             c.selectCard(4);
         }
