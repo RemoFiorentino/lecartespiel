@@ -29,6 +29,7 @@ public class Player extends Thread {
     HashMap<Integer,Player> players;
     ArrayList<Pregunta> preguntas;
     ArrayList<Carta> cartas;
+    Random rnd = new Random();
     boolean judge = true;
     boolean respuesta = true; 
     
@@ -49,9 +50,8 @@ public class Player extends Thread {
     }
     /////////////////////////SEMAPHORE LOGIC/////////////////////////////////
     public void takeCard(String pid, String cid, String idcard){
-        Semaphore sph = ServerAPP.Server.sph;
         try{
-            sph.acquire();
+            ServerAPP.Server.adquire();
             //critical section
             int[] cartas = ServerAPP.Server.cartasI;
             int[] doubt = ServerAPP.Server.doubt;
@@ -64,10 +64,10 @@ public class Player extends Thread {
                 System.out.println("sorry, "+playernom+"already took  card "+ cid);
                 enviarMensaje("Rollback:-"+cid);
             }
-        }catch(InterruptedException iex){
+        }catch(Exception iex){
             System.out.println("interrupted");
         }finally{
-            sph.release();
+            ServerAPP.Server.release();
         }
     }
     //////////////////////////////////////////////////////////////////////////////
@@ -86,29 +86,36 @@ public class Player extends Thread {
                     case "pick":
                         // hacer la fila y aplicar semaforo para blockear la carta
                         System.out.println(playernom+" picked card "+func[1]);
+                        try{ 
+                            Thread.sleep(500);
+                        }catch(InterruptedException e) 
+                        { System.out.println("Thread Interrupted"); }
                         takeCard(func[2],func[1],func[3]);
                     break;
                     case "choose":
                         boolean bool = false;
                         int i2;
                         System.out.println(Arrays.toString(ServerAPP.Server.doubt));
-                        for(i2=0;i2<players.size() && !bool;i2++){
+                        for(i2=1;i2<=players.size() && !bool;i2++){
                             if(ServerAPP.Server.doubt[i2] == Integer.parseInt(func[1])){
                                 bool =true;
                             }
-                            System.out.println("sapp: "+ServerAPP.Server.doubt[i2]);
-                            System.out.println("comp: "+Integer.parseInt(func[1]));
-                            System.out.println("bool: "+ bool);
-                            System.out.println("ii: "+ i2);
                         }
                         if(bool){
                             System.out.println("Error choose");
+                            int i3 = (int) (rnd.nextDouble() * players.size() + 1);
+                            System.out.println(i3);
+                            Player pl = players.get(i3);
+                            Player pl2 = players.get(i2);
+                            pl2.puntaje++;
+                            if(pl2.puntaje >= 1){
+                                findeljuego(pl2.playernom);
+                                return;
+                            }
+                            ServerAPP.Server.currentPlayer = pl.playerID;
+                            System.out.println("gano "+pl.playernom);
+                            siguiente(i3);
                         }
-                        Player pl = players.get(i2);
-                        pl.puntaje++;
-                        ServerAPP.Server.currentPlayer = pl.playerID;
-                        System.out.println("gano "+pl.playernom);
-                        siguiente(i2);
                     break; 
                     case "p":
                         if(func[1].equals("true")){
@@ -121,13 +128,13 @@ public class Player extends Thread {
                     break;
                     //case q: no es llamado    
                     case "q":
-                        Random rnd = new Random();
                         Pregunta p;
                         int j;
                         do{
-                            j = (int) (rnd.nextDouble() * 1 + 0);
+                            j = (int) (rnd.nextDouble() * 15 + 0);
                             p = preguntas.get(j);
                         }while(p.show);
+                        p.show = true;
                         for (Integer i : players.keySet()) {
                             Player PL = players.get(i);
                                 PL.enviarMensaje("Pregunta:-"+p.path);
@@ -136,7 +143,7 @@ public class Player extends Thread {
                         Carta c;
                         for(int k=0;k<players.size()-1;k++){
                             do{
-                                j = (int) (rnd.nextDouble() * 5 + 0);
+                                j = (int) (rnd.nextDouble() * 24 + 0);
                                 c = cartas.get(j);
                             }while(c.show);
                             c.show = true;
@@ -157,6 +164,10 @@ public class Player extends Thread {
         ServerAPP.Server.cleanhash();
     }
     
+    public void findeljuego(String name){
+        enviarTodos("Gano:-"+name,true);
+    }
+    
     public void actualizarP(){
         String p="Puntaje:";
         for (Integer i : players.keySet()) {
@@ -167,6 +178,7 @@ public class Player extends Thread {
     }
     public void siguiente(int i){
         newwaves();
+        actualizarP();
         enviarTodos("Fin:-",true);
         Player p = players.get(i);
         System.out.println("Juez es: "+p.playernom);

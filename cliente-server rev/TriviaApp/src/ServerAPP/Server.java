@@ -21,7 +21,7 @@ public class Server {
     static int currentPlayer;
     int slot=1;
     boolean juegoactivo = false;
-    static Semaphore sph = new Semaphore(1,true);
+    static Semaphore sph = new Semaphore(1);
         
     
     public Server(){
@@ -37,9 +37,9 @@ public class Server {
             System.err.println("Could not listen on port: "+port+".");
         }
         players = new HashMap<Integer,Player>();
-        String[] list = new String[3];
+        String[] list = new String[4];
 
-        for(Integer i = 2;i<5;i++){
+        for(Integer i = 2;i<6;i++){
             list[i-2] = i.toString();
         }
         int selec = Integer.parseInt((String)JOptionPane.showInputDialog(null, "Cuantos jugadores\nvan a jugar", "Jugadores", JOptionPane.INFORMATION_MESSAGE, null, list,list[0]));
@@ -75,6 +75,20 @@ public class Server {
             System.out.println("player: "+currentpx.playernom+" esta de turno.");
         //posible ciclo
     }
+    
+    public static void adquire(){
+        try{
+            sph.acquire();
+        }catch(InterruptedException iex){
+            System.out.println("interrupted");
+        }
+    }
+    
+    public static void release(){
+        sph.release();
+        
+    }
+    
     public static void cleanhash(){
        doubt[0] = -1;
        doubt[1] = -1;
@@ -86,13 +100,13 @@ public class Server {
     public void load(){
         Preguntas = new ArrayList<Pregunta>();
         Pregunta p;
-        for(int i=0;i<10;i++){
+        for(int i=0;i<16;i++){
             p = new Pregunta(i,"p"+String.format("%02d", i)+".png");
             Preguntas.add(p);
         }
         Cartas = new ArrayList<Carta>();
         Carta c;
-        for(int i=0;i<20;i++){
+        for(int i=0;i<25;i++){
             c = new Carta(i,"a"+String.format("%02d", i)+".png");
             Cartas.add(c);
         }
