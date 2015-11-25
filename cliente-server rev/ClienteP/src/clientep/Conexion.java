@@ -34,6 +34,7 @@ public class Conexion extends Thread{
         while(true){
             try{
                 String mensaje = (String) entrada.readUTF();
+                System.out.println("#"+mensaje);
                 String[] sp = mensaje.split("-");
                 String path;
                 switch(sp[0]){
@@ -43,26 +44,54 @@ public class Conexion extends Thread{
                     case "Pregunta:":
                         path = sp[1];
                         ImageIcon card = new ImageIcon(getClass().getClassLoader().getResource(path));
-                        //JLabel jl = new JLabel();
-                        clientep.Juego.setCard(0,card);
+                        clientep.Juego.setCard(-1,card);
                         break;
                     case "Cartas:":
                         path = sp[1];
+                        clientep.Juego.cartas[cont%4] = Integer.parseInt(sp[2]);
                         card = new ImageIcon(getClass().getClassLoader().getResource(path));
-                        clientep.Juego.setCard(cont%5,card);
+                        clientep.Juego.setCard(cont%4,card);
                         cont++;
                         break;
-                    case "Turno:":
-                        //JUDGE logic
+                    case "Choose:":
+                        path = sp[1];
+                        card = new ImageIcon(getClass().getClassLoader().getResource(path));
+                        clientep.Juego.setCard(cont%4+1,card);
+                        cont++;
+                        break;
+                    case "Judge:":
+                        if(nombre.equals(sp[1])){
+                            clientep.Juego.setJudge();
+                            clientep.Juego.jTextArea1.append("Usted es el Juez\n");
+                            clientep.Juego.jLabel1.setText("Juez");
+                            enviarMensaje("q-");
+                        }
+                        break;
+                    case "Fin:":
+                        clientep.Juego.reset();
                         break;
                 ////////////////////////////Pick & lock logic/////////////////////////////        
                     case "Taken:":
                         if(sp[1].equals(id)){
                             //false disables the other cards
                             clientep.Juego.cardLock(sp[2],false);
+                            clientep.Juego.jTextArea1.append("Usted escogio la carta "+sp[2]+"\n");
                             System.out.println("card "+sp[2]+" taken");
+                            int n = Integer.parseInt(sp[2])-1;
+                            clientep.Juego.printCartas();
+                            clientep.Juego.cartas[n]=Integer.parseInt(sp[3]);
+                            clientep.Juego.printCartas();
                         }else{
-                            clientep.Juego.taken(sp[2]);
+                            if(clientep.Juego.judge){
+                                //cargar cartas
+                                path = sp[4];
+                                clientep.Juego.cartas[cont%4] = Integer.parseInt(sp[2]);
+                                card = new ImageIcon(getClass().getClassLoader().getResource(path));
+                                clientep.Juego.setCard(cont%4,card);
+                                cont++;
+                            }else{
+                                clientep.Juego.taken(sp[2]);
+                            }
                             System.out.println("player "+sp[1]+" took card "+sp[2]);
                         } 
                         break;
@@ -74,7 +103,7 @@ public class Conexion extends Thread{
                 /////////////////////////////////////////////////////////////////////////
                     default:
                         //append to chat
-                        System.out.println(mensaje);
+                        //System.out.println(mensaje);
                         break;
                 }
                 /*if(sp[0].equals("Puntaje:")){
@@ -101,7 +130,7 @@ public class Conexion extends Thread{
                     jta.append(sp[0]+"\n");
                 }*/
             }catch(Exception ex){
-                System.out.println(ex.getMessage());
+                System.out.println("shit happens, "+ex.getMessage()+"\n"+ex.getStackTrace());
             }
         }
     }
@@ -113,12 +142,18 @@ public class Conexion extends Thread{
     public void mostrarMensaje(final String mensaje){
         clientep.Juego.jTextArea1.append(mensaje);
     }
-    public void selectCard(int card){
-        enviarMensaje("pick-"+card+"-"+id);
+    public void selectCard(int card, int idgen){
+        enviarMensaje("pick-"+card+"-"+id+"-"+idgen);
         System.out.println("Card "+card+" selected");
+    }
+    
+    public void chooseCard(int card, int idgen){
+        enviarMensaje("choose-"+card+"-"+idgen);
+        System.out.println("Card a"+idgen+".png chosen");
     }
     public void enviarMensaje(String mensaje){
          try{
+             System.out.println("se envio: "+mensaje);
              salida.writeUTF(mensaje);
              salida.flush();
          }catch (IOException ex){

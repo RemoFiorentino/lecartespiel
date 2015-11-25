@@ -4,6 +4,7 @@
  */
 package clientep;
 
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -22,6 +23,9 @@ public class Juego extends javax.swing.JFrame implements Runnable  {
      */
     Conexion c;
     static boolean cardlock=false;
+    static boolean judge;
+    static boolean[] loaded = new boolean[4];
+    static int[] cartas = new int[4];
     public int time = 30;
     public int resp;
     ArrayList<String> lista = new ArrayList();
@@ -43,51 +47,67 @@ public class Juego extends javax.swing.JFrame implements Runnable  {
     public Juego() {
         initComponents();
         this.setTitle("Le Carte Spiel");
+        this.setResizable(false);
+        reset();
+    }
+    public static void printCartas(){
+        for(int i : cartas){
+            System.out.print("["+i+"]");
+        }
+        System.out.println(" ");
+    }
+    static void reset(){
+        judge=false;
+        for(boolean b : loaded){
+            b=false;
+        }
+        for(int i : cartas){
+            i=0;
+        }
+        ans1.setIcon(null);
+        ans1.setEnabled(true);
+        ans2.setIcon(null);
+        ans2.setEnabled(true);
+        ans3.setIcon(null);
+        ans3.setEnabled(true);
+        ans4.setIcon(null);
+        ans4.setEnabled(true);
+        cardlock=false;
+        jLabel1.setText("  ");
+    }
+    static void setJudge() {
+        judge = true;
     }
     public static void setCard(int label, ImageIcon card){
         switch(label){
-            case 0: 
+            case -1: 
                 preg.setIcon(card);
                 System.out.println("loaded question ");
                 break;
-            case 1:
+            case 0:
                 ans1.setIcon(card);
                 System.out.println("loaded card 1");
+                loaded[0] = true;
                 break;
-            case 2:
+            case 1:
                 ans2.setIcon(card);
                 System.out.println("loaded card 2");
+                loaded[1] = true;
                 break;
-            case 3:
+            case 2:
                 ans3.setIcon(card);
                 System.out.println("loaded card 3");
+                loaded[2] = true;
                 break;
-            case 4:
+            case 3:
                 ans4.setIcon(card);
                 System.out.println("loaded card 4");
+                loaded[3] = true;
                 break;            
         }
     }
     void requestQ(){  //con esto haremos el timeout de escojer las cartas supongo
         time=30;
-        /*int j = lista.size();
-        Object[] list = new Object[j];
-        for(int i = 0;i<j;i++){
-            list[i] = lista.get(i);
-        }
-        String selec = (String)JOptionPane.showInputDialog(null, "Choose one", "Input", JOptionPane.INFORMATION_MESSAGE, null, list,list[0]);
-        while(selec == null){
-            selec = (String)JOptionPane.showInputDialog(null, "Choose one, you must choose one you \n life depends on it", "Input", JOptionPane.INFORMATION_MESSAGE, null, list,list[0]);
-        }
-        
-        int i = new Random().nextInt(5); 
-        c.enviarMensaje("q-"+selec+"-"+i);
-        
-        for(int k=0;k<j;k++){
-            if(selec.compareToIgnoreCase(lista.get(k))==0){
-                resp = k; 
-            } 
-        }*/
         timer.restart(); 
     }
     
@@ -168,13 +188,14 @@ public class Juego extends javax.swing.JFrame implements Runnable  {
         ans2 = new javax.swing.JLabel();
         ans3 = new javax.swing.JLabel();
         ans4 = new javax.swing.JLabel();
+        preg = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jTextField2 = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
-        preg = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
 
@@ -183,60 +204,71 @@ public class Juego extends javax.swing.JFrame implements Runnable  {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
+        ans1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         ans1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 ans1MouseClicked(evt);
             }
         });
 
+        ans2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         ans2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 ans2MouseClicked(evt);
             }
         });
 
+        ans3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         ans3.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 ans3MouseClicked(evt);
             }
         });
 
+        ans4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         ans4.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 ans4MouseClicked(evt);
             }
         });
 
+        jLabel1.setText("     ");
+
         org.jdesktop.layout.GroupLayout jPanel1Layout = new org.jdesktop.layout.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jPanel1Layout.createSequentialGroup()
-                .add(20, 20, 20)
-                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel1Layout.createSequentialGroup()
+                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
                     .add(jPanel1Layout.createSequentialGroup()
-                        .add(ans1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 115, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(219, 219, 219)
+                        .add(preg, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 166, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .add(ans2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 115, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(16, 16, 16))
+                        .add(jLabel1))
                     .add(jPanel1Layout.createSequentialGroup()
+                        .add(32, 32, 32)
+                        .add(ans1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 115, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(32, 32, 32)
                         .add(ans3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 115, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 225, Short.MAX_VALUE)
-                        .add(ans4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 115, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(18, 18, 18)))
-                .add(1, 1, 1))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 32, Short.MAX_VALUE)
+                        .add(ans2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 115, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(32, 32, 32)
+                        .add(ans4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 115, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                .add(19, 19, 19))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(jPanel1Layout.createSequentialGroup()
-                .add(24, 24, 24)
+                .addContainerGap()
                 .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(ans1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 160, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(ans2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 160, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .add(101, 101, 101)
+                    .add(jLabel1)
+                    .add(preg, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 230, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(44, 44, 44)
                 .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                    .add(ans4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 160, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(ans1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 160, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(ans3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 160, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(ans4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 160, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(ans2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 160, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -247,7 +279,7 @@ public class Juego extends javax.swing.JFrame implements Runnable  {
 
         jLabel4.setText("IP:");
 
-        jTextField2.setText("localhost");
+        jTextField2.setText("192.168.0.20");
 
         jButton2.setText("Ingresar");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -281,25 +313,18 @@ public class Juego extends javax.swing.JFrame implements Runnable  {
                         .add(jButton2)
                         .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .add(layout.createSequentialGroup()
-                        .add(preg, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 115, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(jPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 190, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(0, 6, Short.MAX_VALUE))))
+                        .add(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                        .add(layout.createSequentialGroup()
-                            .addContainerGap()
-                            .add(preg, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 160, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                        .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
-                            .add(6, 6, 6)
-                            .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 450, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
-                    .add(jPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(6, 6, 6)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                    .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE)
+                    .add(jPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(jTextField2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
@@ -330,6 +355,7 @@ public class Juego extends javax.swing.JFrame implements Runnable  {
                 c = new Conexion(jTextField2.getText(),12345, jTextField1.getText());//,jTextArea1, jTextArea3, jTextArea2,jButton1);
                 c.start();
                 c.enviarMensaje("nom-"+jTextField1.getText());
+                c.nombre=jTextField1.getText();
                 System.out.println("Name sent");
                 jTextField1.setEditable(false);
                 jTextField2.setEditable(false);
@@ -343,34 +369,65 @@ public class Juego extends javax.swing.JFrame implements Runnable  {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void ans1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ans1MouseClicked
-        // TODO add your handling code here:
-        if(ans1.isEnabled()==true && !cardlock==true){
-            cardlock=true;
-            c.selectCard(1);
+        if(loaded[0] && !cardlock==true){
+            if(!judge){
+                if(ans1.isEnabled()==true && !cardlock==true){
+                    cardlock=true;
+                    c.selectCard(1,cartas[0]);
+                }
+            }else{
+                //el juez escogio
+                c.chooseCard(1,cartas[0]);
+                cardLock("1",false);
+            }
         }
     }//GEN-LAST:event_ans1MouseClicked
 
     private void ans2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ans2MouseClicked
         // TODO add your handling code here:
-        if(ans2.isEnabled()==true && !cardlock==true){
-            cardlock=true;
-            c.selectCard(2);
+        if(loaded[1] && !cardlock==true){
+            if(!judge){
+                if(ans2.isEnabled()==true && !cardlock==true){
+                    cardlock=true;
+                    c.selectCard(2,cartas[1]);
+                }
+            }else{
+                //el juez escogio
+                c.chooseCard(2,cartas[1]);
+                cardLock("2",false);
+            }
         }
     }//GEN-LAST:event_ans2MouseClicked
 
     private void ans3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ans3MouseClicked
         // TODO add your handling code here:
-        if(ans3.isEnabled()==true && !cardlock==true){
-            cardlock=true;
-            c.selectCard(3);
+        if(loaded[2] && !cardlock==true){            
+            if(!judge){
+                if(ans3.isEnabled()==true && !cardlock==true){
+                    cardlock=true;
+                    c.selectCard(3,cartas[2]);
+                }
+            }else{
+                //el juez escogio
+                c.chooseCard(3,cartas[2]);
+                cardLock("3",false);
+            }
         }
     }//GEN-LAST:event_ans3MouseClicked
 
     private void ans4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ans4MouseClicked
         // TODO add your handling code here:
-        if(ans4.isEnabled()==true && !cardlock==true){
-            cardlock=true;
-            c.selectCard(4);
+        if(loaded[3] && !cardlock==true){
+            if(!judge){
+                if(ans4.isEnabled()==true){
+                    cardlock=true;
+                    c.selectCard(4,cartas[3]);
+                }
+            }else{
+                //el juez escogio
+                c.chooseCard(4,cartas[3]);
+                cardLock("4",false);
+            }
         }
     }//GEN-LAST:event_ans4MouseClicked
 
@@ -414,10 +471,11 @@ public class Juego extends javax.swing.JFrame implements Runnable  {
     private static javax.swing.JLabel ans3;
     private static javax.swing.JLabel ans4;
     private javax.swing.JButton jButton2;
+    public static javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private static javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     public static javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextField1;
