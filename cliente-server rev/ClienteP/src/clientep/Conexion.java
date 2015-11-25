@@ -52,8 +52,8 @@ public class Conexion extends Thread{
                         clientep.Juego.setCard(cont%5,card);
                         cont++;
                         break;
-                    case "Turno:":
-                        //JUDGE logic
+                    case "Judge:":
+                        enviarMensaje("q-");
                         break;
                 ////////////////////////////Pick & lock logic/////////////////////////////        
                     case "Taken:":

@@ -16,8 +16,9 @@ public class Server {
     ArrayList<Pregunta> Preguntas;
     static ArrayList<Carta> Cartas;
     static int[] cartasI = {0,0,0,0};
+    static int[] doubt = {-1,-1,-1,-1,-1};
     HashMap<Integer,Player> players;
-    int currentPlayer;
+    static int currentPlayer;
     int slot=1;
     boolean juegoactivo = false;
     static Semaphore sph = new Semaphore(1,true);
@@ -25,7 +26,7 @@ public class Server {
     
     public Server(){
         int port = 12345; 
-        //load();
+        load();
         currentPlayer=1;
         juegoactivo=true;
         try{
@@ -36,9 +37,9 @@ public class Server {
             System.err.println("Could not listen on port: "+port+".");
         }
         players = new HashMap<Integer,Player>();
-        String[] list = new String[5];
+        String[] list = new String[3];
 
-        for(Integer i = 2;i<7;i++){
+        for(Integer i = 2;i<5;i++){
             list[i-2] = i.toString();
         }
         int selec = Integer.parseInt((String)JOptionPane.showInputDialog(null, "Cuantos jugadores\nvan a jugar", "Jugadores", JOptionPane.INFORMATION_MESSAGE, null, list,list[0]));
@@ -55,33 +56,45 @@ public class Server {
                 ioex.printStackTrace();
             }
         }
+        try{ 
+            Thread.sleep(3000);
+        }catch(InterruptedException e) 
+        { System.out.println("Thread Interrupted"); }
         //posible ciclo
             Player currentpx = players.get(currentPlayer);
             currentpx.judge=false;
             //ver como manejar al juez
-            currentpx.enviarTodos("Es el turno de "+currentpx.playernom,false);
-            currentpx.enviarMensaje("Turno:-"+currentpx.playernom);
+            currentpx.enviarTodos("Es el turno de ser juez de  "+currentpx.playernom,false);
+            currentpx.enviarMensaje("Judge:-"+currentpx.playernom);
             //broadcast de las cartas
             //hacer mas aleatoria la seleccion
-            currentpx.enviarTodos("Pregunta:-p"+String.format("%02d", 1)+".jpg",true);
-            for(int i=0;i<4;i++){
-                currentpx.enviarTodos("Cartas:-a"+String.format("%02d", i)+".jpg",true);
-            }
-            System.out.println("next player: 1");
+//            currentpx.enviarTodos("Pregunta:-p"+String.format("%02d", 1)+".jpg",true);
+//            for(int i=0;i<4;i++){
+//                currentpx.enviarTodos("Cartas:-a"+String.format("%02d", i)+".jpg",true);
+//            }
+            System.out.println("player: "+currentpx.playernom+" esta de turno.");
         //posible ciclo
+    }
+    public static void cleanhash(){
+       doubt[0] = -1;
+       doubt[1] = -1;
+       doubt[2] = -1;
+       doubt[3] = -1;
+       doubt[4] = -1;
     }
     
     public void load(){
-        // no utilisa load aun, se utilizara despues con mas cartas y para el llenar las cartas en el semaforo  
         Preguntas = new ArrayList<Pregunta>();
         Pregunta p;
-        for(int i=0;i<1;i++){
-            p = new Pregunta(i,"p"+String.format("%02d", i)+".jpg");
+        for(int i=0;i<10;i++){
+            p = new Pregunta(i,"p"+String.format("%02d", i)+".png");
+            Preguntas.add(p);
         }
         Cartas = new ArrayList<Carta>();
         Carta c;
-        for(int i=0;i<players.size();i++){
-            c = new Carta(i,"a"+String.format("%02d", i)+".jpg");
+        for(int i=0;i<20;i++){
+            c = new Carta(i,"a"+String.format("%02d", i)+".png");
+            Cartas.add(c);
         }
     }
     public static void main(String args[]) {

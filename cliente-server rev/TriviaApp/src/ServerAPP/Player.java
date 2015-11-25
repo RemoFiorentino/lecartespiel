@@ -7,6 +7,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.concurrent.Semaphore;
@@ -47,15 +48,17 @@ public class Player extends Thread {
         }
     }
     /////////////////////////SEMAPHORE LOGIC/////////////////////////////////
-    public void takeCard(String pid, String cid){
+    public void takeCard(String pid, String cid, String idcard){
         Semaphore sph = ServerAPP.Server.sph;
         try{
             sph.acquire();
             //critical section
             int[] cartas = ServerAPP.Server.cartasI;
+            int[] doubt = ServerAPP.Server.doubt;
             int id = Integer.parseInt(pid);
             if(cartas[id-1]==0){
-                enviarTodos("Taken:-"+pid+"-"+cid,true);
+                doubt[id-1] = Integer.parseInt(cid);
+                enviarTodos("Taken:-"+pid+"-"+cid+"-"+idcard+"-"+"a"+String.format("%02d", Integer.parseInt(idcard))+".png",true);
                 System.out.println(playernom+" took  card "+ cid);
             }else{
                 System.out.println("sorry, "+playernom+"already took  card "+ cid);
@@ -74,6 +77,7 @@ public class Player extends Thread {
         while(true){
             try{
                 String mensaje = (String) entrada.readUTF();
+                System.out.println("Perra: "+mensaje );
                 String[] func = mensaje.split("-");
                 switch(func[0]){
                     case "nom":
@@ -82,10 +86,29 @@ public class Player extends Thread {
                     case "pick":
                         // hacer la fila y aplicar semaforo para blockear la carta
                         System.out.println(playernom+" picked card "+func[1]);
-                        takeCard(func[2],func[1]);
+                        takeCard(func[2],func[1],func[3]);
                     break;
-                    case "g":
-                        enviarTodos("ganador:-"+func[1],true);
+                    case "choose":
+                        boolean bool = false;
+                        int i2;
+                        System.out.println(Arrays.toString(ServerAPP.Server.doubt));
+                        for(i2=0;i2<players.size() && !bool;i2++){
+                            if(ServerAPP.Server.doubt[i2] == Integer.parseInt(func[1])){
+                                bool =true;
+                            }
+                            System.out.println("sapp: "+ServerAPP.Server.doubt[i2]);
+                            System.out.println("comp: "+Integer.parseInt(func[1]));
+                            System.out.println("bool: "+ bool);
+                            System.out.println("ii: "+ i2);
+                        }
+                        if(bool){
+                            System.out.println("Error choose");
+                        }
+                        Player pl = players.get(i2);
+                        pl.puntaje++;
+                        ServerAPP.Server.currentPlayer = pl.playerID;
+                        System.out.println("gano "+pl.playernom);
+                        siguiente(i2);
                     break; 
                     case "p":
                         if(func[1].equals("true")){
@@ -93,30 +116,31 @@ public class Player extends Thread {
                             actualizarP();
                             enviarTodos(playernom+" contesto correctamente", false);
                         }else{
-                            siguiente();
+                           // siguiente();
                         }
                     break;
                     //case q: no es llamado    
                     case "q":
                         Random rnd = new Random();
-                        int i;
                         Pregunta p;
+                        int j;
                         do{
-                            i = (int) (rnd.nextDouble() * 1 + 0);
-                            p = preguntas.get(i);
+                            j = (int) (rnd.nextDouble() * 1 + 0);
+                            p = preguntas.get(j);
                         }while(p.show);
-                        for(int k=0;k<players.size();k++){
-                           players.get(k).enviarMensaje("Pregunta:-"+p.path);
+                        for (Integer i : players.keySet()) {
+                            Player PL = players.get(i);
+                                PL.enviarMensaje("Pregunta:-"+p.path);
+                                System.out.println("se envio la pregunta a "+PL.playernom);
                         }
                         Carta c;
-                        for(int j=0;j<5;j++){
+                        for(int k=0;k<players.size()-1;k++){
                             do{
-                                i = (int) (rnd.nextDouble() * 1 + 0);
-                                c = cartas.get(i);
+                                j = (int) (rnd.nextDouble() * 5 + 0);
+                                c = cartas.get(j);
                             }while(c.show);
-                            for(int k=0;k<players.size();k++){
-                                players.get(k).enviarMensaje("Carta:-"+c.path);
-                            }
+                            c.show = true;
+                            enviarSinJuez("Cartas:-"+c.path+"-"+c.id);
                         }
                     break;
                     //default:
@@ -129,6 +153,10 @@ public class Player extends Thread {
         }
         players.remove(this);
     }
+    public void newwaves(){
+        ServerAPP.Server.cleanhash();
+    }
+    
     public void actualizarP(){
         String p="Puntaje:";
         for (Integer i : players.keySet()) {
@@ -137,16 +165,12 @@ public class Player extends Thread {
         }
         enviarTodos(p,true);
     }
-    public void siguiente(){
-        if(currentP<players.size()){
-            currentP++;
-        }else{
-            currentP=1;
-        }
-        Player p = players.get(currentP);
-        System.out.println("next player: "+ p.playernom);
-        p.enviarMensaje("Turno:-"+p.playernom);
-        enviarTodos("Es el turno de "+p.playernom,false);
+    public void siguiente(int i){
+        newwaves();
+        enviarTodos("Fin:-",true);
+        Player p = players.get(i);
+        System.out.println("Juez es: "+p.playernom);
+        p.enviarMensaje("Judge:-"+p.playernom);
     }
     public void enviarMensaje(String mensaje){
         try {
@@ -165,6 +189,14 @@ public class Player extends Thread {
                 p.enviarMensaje(mensaje);
             }
         }
-    
+    }
+    public void enviarSinJuez(String mensaje){
+        for (Integer i : players.keySet()) {
+            if(i != ServerAPP.Server.currentPlayer){
+                Player p = players.get(i);
+                System.out.println("se envio "+ mensaje +" a "+p.playernom);
+                p.enviarMensaje(mensaje);   
+            }
+        }
     }
 }
