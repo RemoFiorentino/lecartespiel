@@ -4,7 +4,6 @@
  */
 package clientep;
 
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -40,7 +39,7 @@ public class Juego extends javax.swing.JFrame implements Runnable  {
                     JOptionPane.showMessageDialog(null, "Se acabo el tiempo", "Error", JOptionPane.ERROR_MESSAGE);
                     timer.stop();
                     c.enviarMensaje("p-false");
-                    finturno();
+                    //finturno();
                 }
             }
         });
@@ -62,7 +61,7 @@ public class Juego extends javax.swing.JFrame implements Runnable  {
             b=false;
         }
         for(int i : cartas){
-            i=0;
+            i=-1;
         }
         ans1.setIcon(null);
         ans1.setEnabled(true);
@@ -77,6 +76,10 @@ public class Juego extends javax.swing.JFrame implements Runnable  {
     }
     static void setJudge() {
         judge = true;
+        ans1.setEnabled(true);
+        ans2.setEnabled(true);
+        ans3.setEnabled(true);
+        ans4.setEnabled(true);
     }
     public static void setCard(int label, ImageIcon card){
         switch(label){
@@ -115,18 +118,7 @@ public class Juego extends javax.swing.JFrame implements Runnable  {
         String p="el puntaje actual del jugador es "+puntos;
         jTextArea1.setText(p);   
     }
-        
     
-    
-    void finturno(){
-        /*
-        jTabbedPane1.setSelectedIndex(0);
-        jComboBox1.setEnabled(false);
-        jTextArea3.setText("");
-        jLabel5.setEnabled(false);
-        jButton3.setEnabled(false);
-        */
-    }
     /////////////////////////////////////////////////////////////////
     
     static void taken(String c){
@@ -204,28 +196,24 @@ public class Juego extends javax.swing.JFrame implements Runnable  {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        ans1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         ans1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 ans1MouseClicked(evt);
             }
         });
 
-        ans2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         ans2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 ans2MouseClicked(evt);
             }
         });
 
-        ans3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         ans3.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 ans3MouseClicked(evt);
             }
         });
 
-        ans4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         ans4.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 ans4MouseClicked(evt);

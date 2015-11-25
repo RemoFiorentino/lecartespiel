@@ -70,6 +70,12 @@ public class Conexion extends Thread{
                     case "Fin:":
                         clientep.Juego.reset();
                         break;
+                    case "Puntaje:":
+                        clientep.Juego.jTextArea1.append("Puntaje de "+sp[1]+"\n");
+                        break;
+                    case "Gano:":
+                        clientep.Juego.jTextArea1.append("El Jugador "+sp[1]+" gano.\n");
+                        break;
                 ////////////////////////////Pick & lock logic/////////////////////////////        
                     case "Taken:":
                         if(sp[1].equals(id)){
@@ -99,36 +105,14 @@ public class Conexion extends Thread{
                         //true enables cards
                         clientep.Juego.cardLock(sp[2],true);
                         System.out.println("card "+sp[2]+" already taken");
+                        clientep.Juego.jTextArea1.append("La carta "+sp[2]+" ya fue escogida.\n");
                         break;
                 /////////////////////////////////////////////////////////////////////////
                     default:
                         //append to chat
-                        //System.out.println(mensaje);
+                        System.out.println(mensaje);
                         break;
                 }
-                /*if(sp[0].equals("Puntaje:")){
-                    punt.setText("");
-                    for (int i=0;i<sp.length;i++){
-                        punt.append(sp[i]+"\n");
-                    }
-                }else if(sp[0].equals("Turno:")){
-                    if(sp[1].equals(nombre)){
-                        System.out.println("su turno");
-                        jbt.setEnabled(true);
-                    }
-                }else if(sp[0].equals("Pregunta:")){
-                    Pregunta.setText("");
-                    String[] q = sp[1].split("_");
-                    for(String s : q){
-                        Pregunta.append(s+"\n");
-                    }   
-                    Answer=sp[2]; 
-                }else if(sp[0].equals("Pregunta:")){
-                    finJuego();
-                    jta.append("El ganador del juego es :"+sp[1]);
-                }else{
-                    jta.append(sp[0]+"\n");
-                }*/
             }catch(Exception ex){
                 System.out.println("shit happens, "+ex.getMessage()+"\n"+ex.getStackTrace());
             }
